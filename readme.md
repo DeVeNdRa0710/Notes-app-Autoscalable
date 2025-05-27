@@ -66,8 +66,22 @@ kubectl apply -f hpa.yaml
 kubectl apply -f vpa.yaml
 ```
 
-8. Create Kubernetes Event Driven Autoscaling
+8. Port forwarding
 ```
-kubectl apply -f keda.yaml
+kubectl port-forward service/notes-app-service -n notes-app 8000:8000 --address=0.0.0.0
 ```
 
+9. Run the BusyBox Docker Image to Generate Traffic
+```
+kubectl run -it --tty load-generator --image=busybox -n notes-app /bin/sh
+```
+OR
+If the load-generator pod already exists, you can access it with
+```
+kubectl exec -it load-generator -n notes-app -- /bin/sh
+```
+
+10. Generate Continuous Traffic
+```
+while true; do wget -O- http://notes-app-service:8000; done
+```

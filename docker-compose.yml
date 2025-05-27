@@ -1,4 +1,3 @@
-version : "3.8"
 services :
   web :
      image : devendracode1910/notes-app-k8s:v1
